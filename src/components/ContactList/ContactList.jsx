@@ -1,39 +1,41 @@
-import PropTypes from 'prop-types';
-const { Component } = require('react');
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-class ContactList extends Component {
-  render() {
-    const { list, pattern, onDelete } = this.props;
-    let lista = list.filter(contact => contact.name.includes(pattern));
-    return (
-      <ul>
-        {lista.map(contact => (
-          <li key={contact.id}>
-            {contact.name}: {contact.number}
-            <button
-              onClick={() => {
-                this.props.onDelete(contact.id);
-              }}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
+const ContactList = ({ contacts }) => {
+  const [personData, setpersonData] = useState([]);
+  const data = JSON.parse(localStorage.getItem('person'));
 
-ContactList.propTypes = {
-  list: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  onDelete: PropTypes.func.isRequired,
-  pattern: PropTypes.string.isRequired,
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('person'));
+    setpersonData(data);
+    console.log(data);
+  }, []);
+
+  useEffect(() => {
+    if (data.length > personData.length) {
+      const abc = JSON.parse(localStorage.getItem('person'));
+      setpersonData(abc);
+    }
+  }, [data]);
+
+  const handleDelete = id => {
+    const updateContact = personData.filter(person => person.id !== id);
+    localStorage.setItem('person', JSON.stringify(updateContact));
+    setpersonData(updateContact);
+  };
+
+  return (
+    <ul>
+      {personData
+        ? personData.map(person => (
+            <li>
+              Name: {person.name} Number: {person.number}
+              <button onClick={() => handleDelete(person.id)}>Delete</button>
+            </li>
+          ))
+        : null}
+    </ul>
+  );
 };
 
 export default ContactList;
