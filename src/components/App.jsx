@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
-
-const { Component } = require('react');
-const { default: ContactForm } = require('./ContactForm/ContactForm');
-const { default: ContactList } = require('./ContactList/ContactList');
-const { default: Filter } = require('./Filter/Filter');
+import ContactForm from './ContactForm/ContactForm';
+import ContactList from './ContactList/ContactList';
+import Filter from './Filter/Filter';
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
@@ -17,19 +15,17 @@ const App = () => {
       setContacts([]);
     }
     setContacts(data);
-    console.log(contacts);
   }, []);
 
   const handleAddContact = newContact => {
     let array = contacts;
     array = array === null ? [] : array;
-    console.log('test');
-    console.log(array);
+
     array.push(newContact);
     setContacts(array);
     localStorage.removeItem('person');
     localStorage.setItem('person', JSON.stringify(array));
-    console.log(newContact, array);
+
     setisRender(!isRender);
   };
   return (
