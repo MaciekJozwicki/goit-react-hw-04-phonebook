@@ -15,7 +15,7 @@ const ContactList = ({ contacts }) => {
       const data = JSON.parse(localStorage.getItem('person'));
       setpersonData(data);
     }
-  }, [contacts.length]);
+  }, [contacts.length, personData.length]);
 
   const handleDelete = id => {
     const updateContact = personData.filter(person => person.id !== id);
