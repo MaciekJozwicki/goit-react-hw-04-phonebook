@@ -1,38 +1,36 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const ContactList = ({ contacts }) => {
-  const [personData, setpersonData] = useState([]);
-  // const data = JSON.parse(localStorage.getItem('person'));
+const ContactList = ({ filteredContacts, handleRemoveContact }) => {
+  // const [personData, setpersonData] = useState([]); // powielone
 
   // useEffect(() => {
-  //   const data = JSON.parse(localStorage.getItem('person'));
-  //   setpersonData(data);
-  // }, [contacts.length]);
+  //   let array = contacts;
+  //   array = array === null ? [] : array;
+  //   localStorage.setItem('person', JSON.stringify(array)); // powielone
 
-  useEffect(() => {
-    if (contacts.length > personData.length) {
-      const data = JSON.parse(localStorage.getItem('person'));
-      setpersonData(data);
-    }
-  }, [contacts.length, personData.length]);
+  //   setpersonData(array);
+  // }, [contacts]);
 
-  const handleDelete = id => {
-    const updateContact = personData.filter(person => person.id !== id);
-    localStorage.setItem('person', JSON.stringify(updateContact));
-    setpersonData(updateContact);
-  };
+  // const handleDelete = id => {
+  //   const updateContact = personData.filter(person => person.id !== id);
+  //   localStorage.setItem('person', JSON.stringify(updateContact));
+  //   setpersonData(updateContact);
+  //   if (updateContact.length === 0) {
+  //     localStorage.removeItem('person');
+  //   }
+  // };
+
+  console.log(22, filteredContacts);
 
   return (
     <ul>
-      {personData
-        ? personData.map((person, index) => (
-            <li key={index}>
-              Name: {person.name} Number: {person.number}
-              <button onClick={() => handleDelete(person.id)}>Delete</button>
-            </li>
-          ))
-        : null}
+      {filteredContacts?.map((person, index) => (
+        <li key={index}>
+          Name: {person.name} Number: {person.number}
+          <button onClick={() => handleRemoveContact(person.id)}>Delete</button>
+        </li>
+      ))}
     </ul>
   );
 };

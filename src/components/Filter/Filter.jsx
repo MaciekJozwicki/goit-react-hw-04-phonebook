@@ -1,10 +1,14 @@
+const Filter = filter => {
+  const { onChange } = filter;
 
-
-const Filter = () => {
+  const handleInputChange = e => {
+    console.log(e.target.value);
+    onChange(e);
+  };
   return (
     <label>
       Find contacts by name
-      <input />
+      <input onChange={handleInputChange} />
     </label>
   );
 };
