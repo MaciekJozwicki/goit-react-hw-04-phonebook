@@ -10,7 +10,7 @@ const App = () => {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('person'));
-    console.log(data);
+
     if (data === null) {
       setContacts([]);
     }
@@ -23,7 +23,7 @@ const App = () => {
 
     array.push(newContact);
     setContacts(array);
-    localStorage.removeItem('person');
+
     localStorage.setItem('person', JSON.stringify(array));
 
     setisRender(!isRender);
