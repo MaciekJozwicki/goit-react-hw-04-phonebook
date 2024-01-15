@@ -7,49 +7,46 @@ import Filter from './Filter/Filter';
 const App = () => {
   const [contacts, setContacts] = useState([]);
   const [isRender, setisRender] = useState(false);
-  const [filteredContacts, setFilteredContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  console.log('contacts', contacts);
-  console.log('filteredContacts', filteredContacts);
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('person'));
 
-    if (data === null) {
+    if (data === null || data.length === 0) {
+      localStorage.removeItem('person');
       setContacts([]);
+      return;
     }
     setContacts(data);
-    setFilteredContacts(data);
-  }, []);
+  }, [filter]);
+
+  useEffect(() => {
+    localStorage.setItem('person', JSON.stringify(contacts));
+  }, [contacts]);
 
   const handleAddContact = newContact => {
     const updatedContacts = [...contacts, newContact];
     setContacts(updatedContacts);
-    setFilteredContacts(updatedContacts);
-
-    localStorage.setItem('person', JSON.stringify(updatedContacts));
 
     setisRender(!isRender);
   };
 
   const handleRemoveContact = idToRemove => {
-    const updatedContacts = contacts.filter(contact => contact.id !== idToRemove);
-  
+    const updatedContacts = contacts.filter(
+      contact => contact.id !== idToRemove
+    );
     setContacts(updatedContacts);
-    setFilteredContacts(updatedContacts);
-  
-    localStorage.setItem('person', JSON.stringify(updatedContacts));
-  
+
     setisRender(!isRender);
   };
-  
 
   const handleFilter = e => {
     const { value } = e.target;
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredContacts(filteredContacts);
+    setFilter(value);
   };
 
   return (
@@ -60,7 +57,10 @@ const App = () => {
       <h2>Contacts</h2>
       <Filter onChange={handleFilter} />
 
-      <ContactList filteredContacts={filteredContacts} handleRemoveContact={handleRemoveContact} />
+      <ContactList
+        filteredContacts={filteredContacts}
+        handleRemoveContact={handleRemoveContact}
+      />
     </div>
   );
 };

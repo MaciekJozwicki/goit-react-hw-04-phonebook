@@ -3,7 +3,7 @@
 const ContactList = ({ filteredContacts, handleRemoveContact }) => {
  
 
-  console.log(22, filteredContacts);
+  
 
   return (
     <ul>

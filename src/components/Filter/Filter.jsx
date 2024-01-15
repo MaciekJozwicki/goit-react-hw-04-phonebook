@@ -2,7 +2,6 @@ const Filter = filter => {
   const { onChange } = filter;
 
   const handleInputChange = e => {
-    console.log(e.target.value);
     onChange(e);
   };
   return (
